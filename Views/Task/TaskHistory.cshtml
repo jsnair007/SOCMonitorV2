@@ -1,0 +1,150 @@
+﻿@model IEnumerable<SOCMonitorV2.Models.TaskHistoryModel>
+
+@{
+    ViewData["Title"] = "SOC Shift Monitoring";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<h2>
+    Task History
+</h2>
+
+
+<style type="text/css">
+    .TFtable {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .TFtable th {
+            background: #cefbe2;
+            border: solid thin;
+        }
+
+        .TFtable td {
+            padding: 7px;
+            border: #4e95f4 1px solid;
+        }
+        /* provide some minimal visual accomodation for IE8 and below */
+        .TFtable tr {
+            background: #b8d1f3;
+        }
+            /*  Define the background color for all the ODD background rows  */
+            .TFtable tr:nth-child(odd) {
+                background: #b8d1f3;
+            }
+            /*  Define the background color for all the EVEN background rows  */
+            .TFtable tr:nth-child(even) {
+                background: #dae5f4;
+            }
+</style>
+
+<table class="TFtable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Task_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortDescription)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.FullDescription)
+                </th>*@
+            @*<th>
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.CreatorName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AssignedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AssignTo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AssignDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ETC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Priority)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClosureDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Remarks)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExecutivesComments)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.R_Mod_Time)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="nth-child(even) background-color: #000000">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Task_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShortDescription)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.FullDescription)
+                    </td>*@
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatorName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssignedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssignTo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssignDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ETC)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TaskStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Priority)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClosureDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExecutivesComments)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifiedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.R_Mod_Time)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

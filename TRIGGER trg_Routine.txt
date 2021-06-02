@@ -1,0 +1,38 @@
+CREATE TRIGGER trg_routine
+ON tbl_Routine
+AFTER UPDATE, INSERT, DELETE
+AS
+IF exists(SELECT * from tbl_Routine) and exists (SELECT * from deleted)
+BEGIN
+    INSERT into dbo.tbl_Routine_History(
+	RoutineID,TaskID,ShortDescription,FullDescription,CreatedDate,CreatorId,CreatorName,ExecutionDate,Frequency,CompletedFlg,
+	Priority,ClosureDate,Remarks,ExecRemarks,R_Mod_Time)
+	select
+	i.ID,i.TaskId,i.ShortDescription,i.FullDescription,i.CreatedDate,i.CreatorId,i.CreatorName,i.ExecutionDate,i.Frequency,i.CompletedFlg,
+	i.Priority,i.ClosureDate,i.Remarks,i.ExecRemarks,GETDATE()
+	from inserted i;
+END
+
+IF exists (Select * from inserted) and not exists(Select * from deleted)
+BEGIN
+   INSERT into dbo.tbl_Routine_History(
+	RoutineID,TaskID,ShortDescription,FullDescription,CreatedDate,CreatorId,CreatorName,ExecutionDate,Frequency,CompletedFlg,
+	Priority,ClosureDate,Remarks,ExecRemarks,R_Mod_Time)
+	select
+	i.ID,i.TaskId,i.ShortDescription,i.FullDescription,i.CreatedDate,i.CreatorId,i.CreatorName,i.ExecutionDate,i.Frequency,i.CompletedFlg,
+	i.Priority,i.ClosureDate,i.Remarks,i.ExecRemarks,GETDATE()
+	from inserted i;
+END
+
+IF exists(select * from deleted) and not exists(Select * from inserted)
+BEGIN 
+	INSERT into dbo.tbl_Routine_History(
+	RoutineID,TaskID,ShortDescription,FullDescription,CreatedDate,CreatorId,CreatorName,ExecutionDate,Frequency,CompletedFlg,
+	Priority,ClosureDate,Remarks,ExecRemarks,R_Mod_Time)
+	select
+	i.ID,i.TaskId,i.ShortDescription,i.FullDescription,i.CreatedDate,i.CreatorId,i.CreatorName,i.ExecutionDate,i.Frequency,i.CompletedFlg,
+	i.Priority,i.ClosureDate,i.Remarks,i.ExecRemarks,GETDATE()
+	from inserted i;
+END
+
+

@@ -1,0 +1,130 @@
+﻿@model SOCMonitorV2.Models.RoutineModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h3>Create/Modify Routine Task </h3>
+<hr />
+
+<script src="~/lib/jquery/dist/jquery-3.5.1.min.js"></script>
+<script>
+    $(function () {
+        $("#datepicker").datepicker({ minDate: 0 });
+    });
+</script>
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="AddTask">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ShortDescription" class="control-label"></label>
+                    <textarea cols="10" asp-for="ShortDescription" class="form-control" rows="3"> </textarea>
+                    <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FullDescription" class="control-label"></label>
+                    <textarea cols="20" asp-for="FullDescription" class="form-control" rows="6"> </textarea>
+                    <span asp-validation-for="FullDescription" class="text-danger"></span>
+                </div>
+                <input type="hidden" asp-for="ID" />
+                <input type="hidden" asp-for="TaskId" />
+                <input type="hidden" asp-for="CreatedDate" />
+                <input type="hidden" asp-for="CreatorId" />
+                <input type="hidden" asp-for="CreatorName" />
+                @if (Model.ID == 0)
+                {
+                    <div class="form-group">
+                        <label asp-for="ExecutionDate" class="control-label"></label>
+                        <input asp-for="ExecutionDate" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                        <span asp-validation-for="ExecutionDate" class="text-danger"></span>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label asp-for="ExecutionDate" class="control-label"></label>
+                        <input asp-for="ExecutionDate" class="form-control" value="@Model.ExecutionDate.ToString("yyyy-MM-dd HH:mm:ss")" />
+                        <span asp-validation-for="ExecutionDate" class="text-danger"></span>
+                    </div>
+                }
+                @if (Model.ID == 0)
+                {
+                    <div class="form-group">
+                        <label asp-for="Frequency" class="control-label"></label>
+                        <select asp-for="Frequency" class="form-control" id="statusF">
+                            <option value="Daily">Daily</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="Fortnightly">Fortnightly</option>
+                            <option value="Monthly">Monthly</option>
+                            <option value="Quarterly">Quarterly</option>
+                            <option value="HalfYearly">Half-Yearly</option>
+                            <option value="Yearly">Yearly</option>
+                        </select>
+                        <span asp-validation-for="Frequency" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Priority" class="control-label"></label>
+                        <select asp-for="Priority" class="form-control" id="statusP">
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                        <span asp-validation-for="Priority" class="text-danger"></span>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label asp-for="Frequency" class="control-label"></label>
+                        <select asp-for="Frequency" class="form-control" id="statusF" readonly style="pointer-events: none;">
+                            <option value="Daily">Daily</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="Fortnightly">Fortnightly</option>
+                            <option value="Monthly">Monthly</option>
+                            <option value="Quarterly">Quarterly</option>
+                            <option value="HalfYearly">Half-Yearly</option>
+                            <option value="Yearly">Yearly</option>
+                        </select>
+                        <span asp-validation-for="Frequency" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Priority" class="control-label"></label>
+                        <select asp-for="Priority" class="form-control" id="statusP" readonly style="pointer-events: none;">
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                        <span asp-validation-for="Priority" class="text-danger"></span>
+                    </div>
+                }
+                <div class="form-group">
+                    <label asp-for="CompletedFlg" class="control-label"></label>
+                    <select asp-for="CompletedFlg" class="form-control" id="statusC">
+                        <option value="N">Not Completed</option>
+                        <option value="Y">Completed</option>
+                    </select>
+                    <span asp-validation-for="CompletedFlg" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Remarks" class="control-label"></label>
+                    <textarea cols="20" asp-for="Remarks" class="form-control" rows="6"> </textarea>
+                    <span asp-validation-for="Remarks" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ExecRemarks" class="control-label"></label>
+                    <textarea cols="20" asp-for="ExecRemarks" class="form-control" rows="6"> </textarea>
+                    <span asp-validation-for="ExecRemarks" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create/Update" class="btn btn-primary" onclick="return confirm('Do you really want to create/update Routine Task?')" />
+                    <a asp-action="RoutineList" class="btn btn-outline-success">Routine List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

@@ -1,0 +1,132 @@
+﻿@model SOCMonitorV2.Models.EmployeeModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+         function compareStr() {
+             var string1 = $('#ECNo').val();
+             var string2 = $("#ReportingAuth").val(
+            var result = string1.localeCompare(string2);
+            @ViewBag.Result = result;
+             alert(result);
+         }
+</script>
+
+<script type="text/javascript">
+    function EnableDisableReportingAuth(checkbox) {
+        var txtReportingAuth = document.getElementById("ReportingAuth");
+        var txtRole = document.getElementById("Role");
+        if (document.getElementById("checkbox").checked == true) {
+            document.getElementById("ReportingAuth").disabled = true;
+            document.getElementById("roleD").disabled = true;
+        }
+        else {
+            document.getElementById("ReportingAuth").disabled = false;
+            document.getElementById("roleD").disabled = false;
+        }
+        @*txtReportingAuth.disabled = checkbox.checked ? true : false;
+       // @Model.ReportingAuth = document.getElementById("ECNo");
+        txtRole.disabled = checkbox.checked ? true : false;
+        if (!txtReportingAuth.disabled) {
+            txtReportingAuth.focus();
+        }
+        if (!txtRole.disabled) {
+            txtRole.focus();
+        }*@
+    }
+</script>
+<h4>Employee Details</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddOrEdit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ECNo" class="control-label"></label>
+                <input asp-for="ECNo" class="form-control" />
+                <span asp-validation-for="ECNo" class="text-danger"></span>
+                <input type="hidden" asp-for="ID" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Designation" class="control-label"></label>
+                @*<input asp-for="Designation" class="form-control" />*@
+                <select asp-for="Designation" class="form-control" id="designationD">
+                    <option value="0">--Select Any--</option>
+                    <option value="AM">Asst. Manager(S-I)</option>
+                    <option value="M">Manager(S-II)</option>
+                    <option value="SM">Sr. Manager(S-III)</option>
+                    <option value="CM">Chief Manager(S-IV)</option>
+                    <option value="AGM">Asst. Gen Manager(S-V)</option>
+                    <option value="DGM">Dy. Gen Manager(S-VI)</option>
+                    <option value="GM">General Manager(S-VII)</option>
+                </select>
+                <span asp-validation-for="Designation" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" id="checkbox" asp-for="IsExecutive" onclick="EnableDisableReportingAuth(this)" /> @Html.DisplayNameFor(model => model.IsExecutive)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Role" class="control-label"></label>
+                <select asp-for="Role" class="form-control" id="roleD">
+                    <option value="0">--Select Any--</option>
+                    <option value="SuperUser">Super User(Bank staff)</option>
+                    <option value="User">User(Vendor)</option>
+                    <option value="Admin">Administrator(Executives)</option>
+                    <option value="SuperAdmin">Super Administrator</option>
+                </select>
+                <span asp-validation-for="Role" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <select asp-for="Location" class="form-control" id="locD">
+                    <option value="0">--Select Any--</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Bangalore">Bangalore</option>
+                </select>
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Organisation" class="control-label"></label>
+                <select asp-for="Organisation" class="form-control" id="orgD">
+                    <option value="0">--Select Any--</option>
+                    <option value="BOB">Bank of Baroda</option>
+                    <option value="Vendor">Vendor</option>
+                </select>
+                <span asp-validation-for="Organisation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReportingAuth" class="control-label"></label>
+                <select asp-for="ReportingAuth" class="form-control" asp-items="@(new SelectList(ViewBag.AuthList, "ECNo", "Name"))"></select>
+                <span asp-validation-for="ReportingAuth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mobile" class="control-label"></label>
+                <input asp-for="Mobile" class="form-control" />
+                <span asp-validation-for="Mobile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <font color="red"> @ViewBag.Result</font>
+                <input type="submit" value="Create/Update" class="btn btn-primary" />
+                <a asp-action="EmployeeList" class="btn btn-outline-success">Employee List</a>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,285 @@
+﻿@model SOCMonitorV2.Models.CompositeSOCModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Index</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+    <form asp-action="MarkAttendanceIndex" method="post">
+
+        <div class="container">
+            @if (ViewBag.Role == "Admin" || ViewBag.Role == "SuperAdmin")
+            {
+                @if (Model.Tasks != null)
+                {
+                    @if (Model.Tasks.Count != 0)
+                    {
+                        int cntOpen = 0;
+                        int cntClosed = 0;
+                        int cntPending = 0;
+                        int cntDue = 0;
+                        int cntMaxDue = 0;
+                        <br />
+                        @if (ViewBag.Role == "SuperAdmin" || ViewBag.Role == "Admin")
+                        {
+                            <h2>Consolidated Pending Task</h2>
+                            <div class="row">
+                                &nbsp;<div class="col-sm-2 font-weight-bold bg-dark" style="font-size: large; color: #ffffff">Name</div>
+                                <div class="col-sm-2 font-weight-bold bg-dark" style="font-size: large; color: #ffffff">ECNo</div>
+                                <div class="col-sm-3 font-weight-bold bg-dark" style="font-size: large; color: #ffffff">Total Pending</div>
+                                <div class="col-sm-3 font-weight-bold bg-dark" style="font-size: large; color: #ffffff">Heighest overdue</div>
+                            </div>
+                            @if (Model.Employees.Count != 0)
+                            {
+                                @for (int i = 0; i < Model.Employees.Count; i++)
+                                {
+                                    <div class="row">
+                                        &nbsp;<div class="col-sm-2" style="font-size: large; background-color: #d6eef8">@Model.Employees[i].Name</div>
+                                        <div class="col-sm-2" style="font-size: large; background-color: #d6eef8">@Model.Employees[i].ECNo</div>
+                                        <div class="col-sm-3" style="font-size: large; background-color: #d6eef8">
+                                            @if (Convert.ToInt64(@Model.Employees[i].ResponseCode) > 0)
+                                            {<b>@Model.Employees[i].ResponseCode</b> }
+                                        else
+                                        { @Model.Employees[i].ResponseCode}
+                                        </div>
+                                        <div class="col-sm-3" style="font-size: large; background-color: #d6eef8">
+                                            @if (Convert.ToInt32(@Model.Employees[i].Designation) < 1)
+                                            {
+                                                <r>No overdue</r>}
+                                            else
+                                            {
+                                                <b style="color:red">@Model.Employees[i].Designation </b>}
+                                    </div>
+                                </div>
+                            }
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    <div class="col-lg-7" style="font-size: large; background-color: floralwhite; color: red">No Pending Task...!</div>
+                                </div>
+                            }
+                            <br />
+                            //consolidated routine task here
+                            <h2>Consolidated Routine Task</h2>
+                            <div class="row">
+                                &nbsp;<div class="col-sm-4 font-weight-bold bg-dark" style="font-size:larger; color:#ffffff">Description</div>
+                                <div class="col-sm-4 font-weight-bold bg-dark" style="font-size: larger; color: #ffffff">Total Pending</div>
+                            </div>
+                            @if (Model.RoutineComp.Count != 0)
+                            {
+                                <div class="row">
+                                    &nbsp;<div class="col-sm-4" style="font-size: larger; background-color: #d6eef8">Total Routine Task</div>
+                                          <div class="col-sm-4" style="font-size: larger; background-color: #d6eef8">
+                                              @if (@Model.RoutineComp.Count > 0)
+                                              {
+                                                  Int32 cnt = 0;
+                                                  @for (int i = 0; i < Model.RoutineComp.Count; i++)
+                                                  {
+                                                      @if (Model.RoutineComp[i].CompletedFlg == "N")
+                                                      {
+                                                          cnt += 1;
+                                                      }
+                                                      else
+                                                      {
+                                                          <r>0</r>
+                                                      }
+                                                  }
+                                                  <b>@cnt</b>
+                                              }
+                                              else
+                                              {@Model.RoutineComp.Count}
+                                              [Heighest Overdue:
+                                              @for (int i = 0; i < Model.RoutineComp.Count; i++)
+                                              {
+                                                  @if (Model.RoutineComp[i].CompletedFlg == "N")
+                                                  {
+                                                      System.DateTime dtETC = Convert.ToDateTime(Model.RoutineComp[i].ExecutionDate);
+                                                      System.DateTime dtToday = DateTime.Now;
+                                                      cntDue = dtETC.Subtract(dtToday).Days;
+                                                      if (cntMaxDue > cntDue)
+                                                          cntMaxDue = cntDue;
+                                                  }
+                                              }
+                                              @if (cntMaxDue >= 0)
+                                              {
+                                                  <r style="color:black">[0 Day]</r>
+                                              }
+                                              else if (cntMaxDue == -1)
+                                              {
+                                                  <b style="color:red">[@Math.Abs(@cntMaxDue) Day]</b>
+                                              }
+                                              else if (cntMaxDue < 1)
+                                              {
+                                                  <b style="color:red">[@Math.Abs(@cntMaxDue) Days]</b>
+                                              }]
+                                          </div>
+                                </div>
+                            }
+                            else
+                            {
+                                              <div class="row">
+                                                  <div class="col-lg-8" style="background-color:floralwhite;color:red">No Pending Routine Task...!</div>
+                                              </div>
+                            }
+                        }
+
+                                              @*<br />
+                                              <div class="row">
+                                                  <div class="col-lg-12" style="color:black">
+                                                      <h3>
+                                                          Total number of Pending Task:
+                                                          @for (int i = 0; i < Model.Tasks.Count; i++)
+                                    {
+                                                          @if (Model.Tasks[i].TaskStatus == "Open")
+                                        {
+                                            cntOpen++;
+                                        }
+                                    }
+                                                          @if (cntOpen != 0)
+                                    {
+                                                          <b><a href="~/Task/TaskList" style="color:red"> [@cntOpen]</a></b>
+                                    }
+                                    else
+                                    {
+                                                          <r style="color:black"> [@cntOpen] </r>
+                                    }. Total Max Over Due:
+                                                          @for (int i = 0; i < Model.Tasks.Count; i++)
+                                    {
+                                                          @if (Model.Tasks[i].TaskStatus == "Open")
+                                        {
+                                            System.DateTime dtETC = Convert.ToDateTime(Model.Tasks[i].ETC);
+                                            System.DateTime dtToday = DateTime.Now;
+                                            cntDue = dtETC.Subtract(dtToday).Days;
+                                            if (cntMaxDue > cntDue)
+                                                cntMaxDue = cntDue;
+                                        }
+                                    }
+                                                          @if (cntMaxDue >= 0)
+                                    {
+                                                          <r style="color:black">[0 Day]</r>
+                                    }
+                                    else if (cntMaxDue == -1)
+                                    {
+                                                          <b style="color:red">[@Math.Abs(@cntMaxDue) Day]</b>
+                                    }
+                                    else if (cntMaxDue < 1)
+                                    {
+                                                          <b style="color:red">[@Math.Abs(@cntMaxDue) Days]</b>
+                                    }
+
+                                                      </h3>
+                                                  </div>
+                                              </div>*@
+                                              <br />
+                                              <div class="row">
+                                                  <div class="col-lg-12" style="color:black">
+                                                      <h4>
+                                                          Total number of Pending For Closure Task:
+                                                          @for (int i = 0; i < Model.Tasks.Count; i++)
+                                    {
+                                                          @if (Model.Tasks[i].TaskStatus == "PendingForClosure")
+                                        {
+                                            cntPending++;
+                                        }
+                                    }
+                                                          @if (cntPending != 0)
+                                    {
+                                                          <b style="color:red"> [@cntPending] </b>
+                                    }
+                                    else
+                                    {
+                                                          <font style="color:black"> [@cntPending] </font>
+                                    }
+                                                      </h4>
+                                                  </div>
+                                              </div>
+                                              <br />
+                                              <div class="row">
+                                                  <div class="col-lg-12" style="color:black">
+                                                      <h5>
+                                                          Total number of Closed Task:
+                                                          @for (int i = 0; i < Model.Tasks.Count; i++)
+                                    {
+                                                          @if (Model.Tasks[i].TaskStatus == "Closed")
+                                        {
+                                            cntClosed++;
+                                        }
+                                    }
+                                                          <font style="color:green">[@cntClosed]</font>
+                                                      </h5>
+                                                  </div>
+                                              </div>
+                                              <br />
+                                              <div class="row">
+                                                  <div class="col-lg-12" style="color:black"><h5>Total number of Task Created: <a href="~/Task/TaskList" style="color:black">[@Model.Tasks.Count]</a> </h5></div>
+                                              </div>
+                                              }
+                                              else
+                                              {
+                                              <div class="row">
+                                                  <div class="col-lg-12" style="color:black"><h2>No Task available!</h2></div>
+                                              </div>
+                                              }
+                                              }
+                                              else
+                                              {
+                                              <div class="row">
+                                                  <div class="col-lg-12" style="color:black"><h2>No Task available!</h2></div>
+                                              </div>
+                                              }
+                                              }
+                                              else
+                                              {
+                                              <br />
+                                              <div style="color:black"><h3>Total number of Pending Task: @if(@Model.Tasks.Count>0) { <a href="~/Task/TaskList" style="color:red">[@Model.Tasks.Count] </a> } else @Model.Tasks.Count </h3> </div>
+                                              <br />
+                                              <div style="color:black"><h3>Total number of Routine Task: @if (@Model.RoutineComp.Count>0) { <a href="~/Routine/RoutineList" style="color:red">[@Model.RoutineComp.Count] </a> } else @Model.RoutineComp.Count </h3> </div>
+                                              }
+                                              _________________________________________________________________________________________
+                                              <br />
+                                              <h3><b>Todays Shift Schedule</b></h3>
+                                              <div class="row">
+                                                  <div class="col-sm-1 font-weight-bold bg-dark" style="font-size: larger;color:#ffffff">ECNo</div>
+                                                  <div class="col-sm-2 font-weight-bold bg-dark" style="font-size: larger;color:#ffffff">Name</div>
+                                                  <div class="col-sm-1 font-weight-bold bg-dark" style="font-size: larger;color:#ffffff">Place</div>
+                                                  <div class="col-sm-2 font-weight-bold bg-dark" style="font-size: larger;color:#ffffff">Shift</div>
+                                                  <div class="col-sm-2 font-weight-bold bg-dark" style="font-size: larger;color:#ffffff">Shift - Time</div>
+                                                  <div class="col-sm-1 font-weight-bold bg-dark" style="font-size: larger;color:#ffffff">Mobile</div>
+                                                  <div class="col-lg-3 font-weight-bold bg-dark" style="font-size: larger;color: #ffffff"><center>Email</center></div>
+                                              </div>
+                                              @if (Model.ShiftSchedules.Count != 0)
+            {
+                                              @for (int i = 0; i < Model.ShiftSchedules.Count; i++)
+                {
+                                              <div class="row">
+                                                  <div class="col-sm-1" style="font-size: large;background-color:#d6eef8">@Model.ShiftSchedules[i].ECNo</div>
+                                                  <div class="col-sm-2" style="font-size: large;background-color:#d6eef8">@Model.ShiftSchedules[i].Name</div>
+                                                  <div class="col-sm-1" style="font-size: large;background-color:#d6eef8">@Model.ShiftSchedules[i].WorkPlace</div>
+                                                  <div class="col-sm-2" style="font-size: large;background-color:#d6eef8">@Model.ShiftSchedules[i].ShiftTimeBase</div>
+                                                  <div class="col-sm-2" style="font-size: large;background-color:#d6eef8">@Model.ShiftSchedules[i].DutyStartDateTime -  @Model.ShiftSchedules[i].DutyEndDateTime</div>
+                                                  <div class="col-sm-1" style="font-size: large;background-color:#d6eef8">@Model.ShiftSchedules[i].Mobile</div>
+                                                  <div class="col-lg-3" style="font-size: large; background-color: #d6eef8">@Model.ShiftSchedules[i].Email</div>
+                                              </div>
+                }
+            }
+            else
+            {
+                                              <div class="row">
+                                                  <div class="col-lg-11" style="background-color:floralwhite;color:red">No Employees are available for duty...!</div>
+                                              </div>
+            }
+                                          </div>
+                            <script src="js/jquery-2.1.4.min.js"></script>
+                            <script src="js/bootstrap.min.js"></script>
+</form>
+
+</body>
+</html> 

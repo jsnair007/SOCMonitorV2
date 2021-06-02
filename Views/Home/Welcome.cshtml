@@ -1,0 +1,25 @@
+﻿@model SOCMonitorV2.Models.CompositeSOCModel
+
+@{
+    ViewData["Title"] = "Welcome";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<body>
+    <form asp-action="Welcome" method="post">
+
+        <div class="text-center">
+            <p></p>
+            <p></p>
+            <h2 class="display-4">Welcome @ViewBag.Name</h2>
+            <p></p>
+            <h3>You have successfully marked your attendance. </h3>
+            <p></p>
+            <input type="submit" value="Click here to Continue" class="btn btn-primary col-lg-6" asp-action="Home" />
+        </div>
+    </form>
+</body>
+</html>

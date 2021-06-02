@@ -1,0 +1,173 @@
+﻿@model SOCMonitorV2.Models.TaskModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Create/Modify Task </h3> 
+<hr />
+
+<script src="~/lib/jquery/dist/jquery-3.5.1.min.js"></script>
+@*<script type="text/javascript">
+    $(function () {
+        $("#statusD").change(function () {
+            if ($(this).val() == "Closed") {
+                $("#closeD").show();
+            } else {
+                $("#closeD").hide();
+            }
+        });
+    });
+</script>*@
+<script>
+    $(function () {
+        $("#datepicker").datepicker({ minDate: 0 });
+    });
+</script>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddTask">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            @if (Model.ID == 0)
+            {
+                <div class="form-group">
+                    <label asp-for="ShortDescription" class="control-label"></label>
+                    <input asp-for="ShortDescription" class="form-control" />
+                    <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FullDescription" class="control-label"></label>
+                    <textarea cols="20" asp-for="FullDescription" class="form-control" rows="6"> </textarea>
+                    <span asp-validation-for="FullDescription" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="ShortDescription" class="control-label"></label>
+                    <input asp-for="ShortDescription" class="form-control" readonly style="pointer-events: none;" />
+                    <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FullDescription" class="control-label"></label>
+                    <textarea cols="20" asp-for="FullDescription" class="form-control" rows="6" readonly style="pointer-events: none;"> </textarea>
+                    <span asp-validation-for="FullDescription" class="text-danger"></span>
+                </div>
+            }
+            <input type="hidden" asp-for="CreatedDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <input type="hidden" asp-for="CreatorId" />
+            <input type="hidden" asp-for="CreatorName" />
+            <input type="hidden" asp-for="ExecutivesComments" />
+            @*<div class="form-group">
+            <label asp-for="Creator" class="control-label"></label>
+            <input asp-for="Creator" class="form-control" />
+            <span asp-validation-for="Creator" class="text-danger"></span>
+        </div>*@
+            <div class="form-group">
+                <label asp-for="AssignTo" class="control-label"></label>
+                <select asp-for="AssignTo" class="form-control" asp-items="@(new SelectList(ViewBag.DepList, "ECNo", "Name"))"></select>
+                <span asp-validation-for="AssignTo" class="text-danger"></span>
+                <input type="hidden" asp-for="AssignedBy" />
+            </div>
+            <div class="form-group">
+                <label asp-for="AssignDate" class="control-label"></label>
+                <input asp-for="AssignDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" readonly />
+                <span asp-validation-for="AssignDate" class="text-danger"></span>
+            </div>
+            @if (Model.ID == 0)
+            {
+                <div class="form-group">
+                    <label asp-for="ETC" class="control-label"></label>
+                    <input asp-for="ETC" value="@DateTime.Now.AddDays(3).ToString("yyyy-MM-dd")" class="form-control" />
+                    <span asp-validation-for="ETC" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="ETC" class="control-label"></label>
+                    <input asp-for="ETC" value="@DateTime.Now.AddDays(3).ToString("yyyy-MM-dd")" class="form-control" readonly style="pointer-events: none;" />
+                    <span asp-validation-for="ETC" class="text-danger"></span>
+                </div>
+            }
+            @if (Model.TaskStatus != "PendingForClosure")
+            {
+                <div class="form-group">
+                    <label asp-for="TaskStatus" class="control-label"></label>
+                    <select asp-for="TaskStatus" class="form-control" id="statusD">
+                        @*<option value="0">--Select Status--</option>*@
+                        <option value="Open">Open</option>
+                        <option value="Closed">Closed</option>
+                    </select>
+                    <span asp-validation-for="TaskStatus" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="TaskStatus" class="control-label"></label>
+                    <select asp-for="TaskStatus" class="form-control" id="statusD">
+                        @*<option value="0">--Select Status--</option>*@
+                        <option value="PendingForClosure">Pending For Closure</option>
+                        <option value="Re-Open">Re-Open</option>
+                        <option value="Closed">Closed</option>
+                    </select>
+                    <span asp-validation-for="TaskStatus" class="text-danger"></span>
+                </div>
+            }
+            @*<div class="form-group" id="closeD">
+            <label asp-for="ClosureDate" class="control-label"></label>
+            <input asp-for="ClosureDate" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <span asp-validation-for="ClosureDate" class="text-danger"></span>
+        </div>*@
+            <input type="hidden" asp-for="ClosureDate" />
+            @if (Model.ID == 0)
+            {
+                <div class="form-group">
+                    <label asp-for="Priority" class="control-label"></label>
+                    <select asp-for="Priority" class="form-control" id="statusD">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                    <span asp-validation-for="Priority" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="Priority" class="control-label"></label>
+                    <select asp-for="Priority" class="form-control" id="statusD" readonly style="pointer-events: none;">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                    <span asp-validation-for="Priority" class="text-danger"></span>
+                </div>
+            }
+            <div class="form-group">
+                <label asp-for="Remarks" class="control-label"></label>
+                <textarea cols="20" asp-for="Remarks" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Remarks" class="text-danger"></span>
+            </div>
+            @if (ViewBag.Role == "Admin" || ViewBag.Role == "SuperAdmin")
+            {
+                <div class="form-group">
+                    <label asp-for="ExecutivesComments" class="control-label"></label>
+                    <textarea cols="20" asp-for="ExecutivesComments" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="ExecutivesComments" class="text-danger"></span>
+                </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Create/Update" class="btn btn-primary" onclick="return confirm('Do you really want to create/update Task?')" />
+                <a asp-action="TaskList" class="btn btn-outline-success">Task List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

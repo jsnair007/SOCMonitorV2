@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SOCMonitorV2", "SOCMonitorV2.csproj", "{77EBBAC0-60E2-41FA-8C9B-EA6BE7DAAE97}"
+	ProjectSection(ProjectDependencies) = postProject
+		{82F26B74-6457-4848-8E5F-56C749A71374} = {82F26B74-6457-4848-8E5F-56C749A71374}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassLibraryDB", "..\ClassLibrary1\ClassLibraryDB.csproj", "{82F26B74-6457-4848-8E5F-56C749A71374}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{77EBBAC0-60E2-41FA-8C9B-EA6BE7DAAE97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77EBBAC0-60E2-41FA-8C9B-EA6BE7DAAE97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77EBBAC0-60E2-41FA-8C9B-EA6BE7DAAE97}.Debug|x64.ActiveCfg = Debug|x64
+		{77EBBAC0-60E2-41FA-8C9B-EA6BE7DAAE97}.Debug|x64.Build.0 = Debug|x64
+		{77EBBAC0-60E2-41FA-8C9B-EA6BE7DAAE97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77EBBAC0-60E2-41FA-8C9B-EA6BE7DAAE97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77EBBAC0-60E2-41FA-8C9B-EA6BE7DAAE97}.Release|x64.ActiveCfg = Release|x64
+		{77EBBAC0-60E2-41FA-8C9B-EA6BE7DAAE97}.Release|x64.Build.0 = Release|x64
+		{82F26B74-6457-4848-8E5F-56C749A71374}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82F26B74-6457-4848-8E5F-56C749A71374}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82F26B74-6457-4848-8E5F-56C749A71374}.Debug|x64.ActiveCfg = Debug|x64
+		{82F26B74-6457-4848-8E5F-56C749A71374}.Debug|x64.Build.0 = Debug|x64
+		{82F26B74-6457-4848-8E5F-56C749A71374}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82F26B74-6457-4848-8E5F-56C749A71374}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82F26B74-6457-4848-8E5F-56C749A71374}.Release|x64.ActiveCfg = Release|x64
+		{82F26B74-6457-4848-8E5F-56C749A71374}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19575B67-EA4F-41DD-9F41-681CD7311CE7}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,11 @@
+
+ALTER TRIGGER trg_executives
+ON tbl_Employee
+AFTER INSERT
+AS
+BEGIN
+    INSERT into tbl_Executives(ECNo,Name)
+	SELECT i.ECNo,i.Name from inserted i where IsExecutive=1;
+END
+
+

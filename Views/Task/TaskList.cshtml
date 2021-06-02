@@ -1,0 +1,138 @@
+﻿@model IEnumerable<SOCMonitorV2.Models.TaskModel>
+
+@{
+    ViewData["Title"] = "Task List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Tasks List</h4>
+<script>
+    function ShowPopup(url) {
+        window.open(url);
+    }
+</script>
+
+
+<table id="DT_load" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortDescription)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.CreatorName)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.AssignedBy)
+            </th>
+            @*@if (ViewBag.Role == "Admin" || ViewBag.Role == "SuperAdmin")
+        {*@
+            <th>
+                @Html.DisplayNameFor(model => model.AssignTo)
+            </th>
+            @*}*@
+            @*<th>
+                @Html.DisplayNameFor(model => model.AssignDate)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.TaskStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ETC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Priority)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Remarks)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.ExecutivesComments)
+            </th>
+            <th>
+                <a asp-action="Create" class="btn btn-outline-primary">+Add New</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                <input type="hidden" asp-for="@item.FullDescription" />
+                @Html.ActionLink(item.ShortDescription, "FullDesciption", new { item.FullDescription }, new { target = "_blank" })
+                @Html.HiddenFor(modelItem => item.CreatorId)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.CreatorName)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.AssignedBy)
+            </td>
+            @*@if (ViewBag.Role == "Admin" || ViewBag.Role == "SuperAdmin")
+        {*@
+            @if (ViewBag.Name == item.AssignTo)
+            {
+                <td style="color:red">
+                    @Html.DisplayFor(modelItem => item.AssignTo)
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssignTo)
+                </td>
+            }
+            @*}*@
+            @*<td>
+                @Html.DisplayFor(modelItem => item.AssignDate)
+            </td>*@
+            @if (item.TaskStatus == "Open" || item.TaskStatus == "PendingForClosure")
+            {
+                <td style="color:orangered">
+                    @Html.DisplayFor(modelItem => item.TaskStatus)
+                </td>
+            }
+            else
+            {
+                <td style="color:limegreen">
+                    @Html.DisplayFor(modelItem => item.TaskStatus)
+                    @Html.HiddenFor(modelItem => item.ClosureDate)
+                </td>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.ETC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Priority)
+            </td>
+            @*<td>
+                @Html.DisplayFor(model => item.Remarks)
+            </td>*@
+            <td>
+                @Html.DisplayFor(model => item.ExecutivesComments)
+            </td>
+            <td>
+                @if (item.AssignTo == ViewBag.Name && item.TaskStatus=="Open")
+                    @Html.ActionLink("Edit", "Create", new { id = item.ID, item.ShortDescription, item.FullDescription, item.CreatorId, item.CreatorName, item.AssignedBy, item.AssignTo, item.AssignDate, item.ETC, item.Priority, item.ClosureDate, item.Remarks, item.ExecutivesComments,item.TaskStatus }, new { @class = "btn btn-success"  })
+
+                @if ((ViewBag.Role == "Admin" || ViewBag.Role == "SuperAdmin") && item.TaskStatus!="Closed")
+                {
+                    @Html.ActionLink("Edit", "Create", new { id = item.ID, item.ShortDescription, item.FullDescription, item.CreatorId, item.CreatorName, item.AssignedBy, item.AssignTo, item.AssignDate, item.ETC, item.Priority, item.ClosureDate, item.Remarks, item.ExecutivesComments, item.TaskStatus }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("Delete", "DeleteTask", new { item.ID }, new { @class = "btn btn-danger", onclick = "return confirm('Do you really want to delete???')" })
+                }
+                @Html.ActionLink("Story", "TaskHistory", new { id = item.ID }, new { @class = "btn btn-info", onclick = "window.open(this.href,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=1000,height=500');return false;" })
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modelContent">
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/JavaScript.js"></script>
+    }

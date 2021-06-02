@@ -1,0 +1,39 @@
+﻿@model SOCMonitorV2.Models.CompositeSOCModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<body>
+    <form asp-action="Index" method="post">
+
+        <div class="text-center">
+            <p></p>
+            <p></p>
+            <h2 class="display-4">Welcome @ViewBag.Name</h2>
+            <p></p>
+            @if (ViewBag.Role == "Admin")
+            {
+                <p><h3>You have logged in as Administrator</h3> </p>
+            }
+            else if (ViewBag.Role == "SuperAdmin")
+            {
+                <p><h3>You have logged in as Super Admin</h3> </p>
+            }
+            @if (ViewBag.IsPresent == "Y")
+            {
+                <h3>You have already marked your attendance. </h3>
+            }
+            <p></p>
+            <br />
+            <center><img src="~/lib/soc1.jpg" /></center>
+            <br />
+            <input type="submit" value="Click here to Continue" class="btn btn-primary col-lg-6" asp-action="Home" />
+        </div>
+        </form>
+    </body>
+</html>

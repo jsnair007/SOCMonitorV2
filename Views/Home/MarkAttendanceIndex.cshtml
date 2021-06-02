@@ -1,0 +1,147 @@
+﻿@model SOCMonitorV2.Models.CompositeSOCModel
+
+@{
+    ViewData["Title"] = "MarkAttendanceIndex";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>MarkAttendance</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+    <form asp-action="MarkAttendanceIndex" method="post">
+        @if (ViewBag.ShiftDateMatch == "Y")
+        {
+        <div class="container">
+            <p></p><br /><br /><h1>Welcome @ViewBag.Name</h1>
+            <p></p>
+            @if (@ViewBag.ShiftTimeBase == "HOLIDAY")
+            {
+                <h3>You are on <label style="color:mediumslateblue"> HOLIDAY </label> as per shift roster. </h3>
+            }
+            else if (@ViewBag.ShiftTimeBase == "CO")
+            {
+                <h3>You are on <label style="color:mediumslateblue"> COMP OFF </label> as per shift roster. </h3>
+            }
+            else if (@ViewBag.ShiftTimeBase == "LEAVE")
+            {
+                <h3>You are on <label style="color:mediumslateblue"> LEAVE </label> as per shift roster. </h3>
+            }
+            else
+            {
+                <h3>You are in <label style="color:mediumslateblue"> @ViewBag.ShiftTimeBase </label> shift</h3>
+                <br />
+                <h3>Your scheduled duty starts at <label style="color:mediumslateblue"> @ViewBag.DutyStartTime </label> and ends at <label style="color:mediumslateblue"> @ViewBag.DutyEndTime </label></h3>
+            }
+            <p></p>
+            <br />
+            <br />
+            <div class="col-lg-10 font-weight-bold bg-light" style="color:#808080; align-items:center">
+                <h2>
+                    <input type="submit" value="Click here to Continue" class="btn btn-primary col-lg-12" asp-action="Home" />
+                </h2>
+            </div>
+
+                    <br /><br /><br />
+                    <div class="row">
+                        <div class="col-lg-10 font-weight-bold bg-light" style="color:#808080; align-items:center"><h2> Mark your attendance[@ViewBag.ECNo]: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Save" class="btn btn-primary" /></h2></div>
+                    </div>
+                    <br />
+                    <input type="text" name="ECNo" hidden value="@ViewBag.ECNo" />
+                    <input type="text" name="Name" hidden value="@ViewBag.Name" />
+                    <input type="text" name="DutyDate" hidden value="@ViewBag.DutyDate" />
+                    <input type="text" name="ShiftBase" hidden value="@ViewBag.ShiftTimeBase" />
+            </div>
+        }
+        else if (ViewBag.ShiftDateMatch == "F")
+        {
+    <div class="container">
+        <h1>Welcome @ViewBag.Name</h1>
+        <p></p>
+        <h3>You are not in present shift as per the scheduled roster</h3>
+        <p></p>
+        <h3>Your next 5 days schedules are </h3>
+        <div class="row">
+            <div class="col-sm-2 font-weight-bold bg-dark" style="color:#ffffff">Name</div>
+            <div class="col-sm-2 font-weight-bold bg-dark" style="color:#ffffff">Duty Date</div>
+            <div class="col-sm-2 font-weight-bold bg-dark" style="color:#ffffff">Shift Base</div>
+            <div class="col-lg-2 font-weight-bold bg-dark" style="color:#ffffff">Start Time</div>
+            <div class="col-lg-2 font-weight-bold bg-dark" style="color:#ffffff">End Time</div>
+        </div>
+        @if (Model.AttendanceModels.Count != 0)
+        {
+            @for (int i = 0; i < Model.AttendanceModels.Count; i++)
+            {
+                <div class="row">
+                    <div class="col-sm-2" style="background-color:#d6eef8">@ViewBag.Name</div>
+                    <div class="col-sm-2" style="background-color:#d6eef8">@Model.AttendanceModels[i].DutyDate</div>
+                    <div class="col-sm-2" style="background-color:#d6eef8">@Model.AttendanceModels[i].ShiftTimeBase</div>
+                    <div class="col-lg-2" style="background-color:#d6eef8">@Model.AttendanceModels[i].DutyStartTime</div>
+                    <div class="col-lg-2" style="background-color:#d6eef8">@Model.AttendanceModels[i].DutyEndTime</div>
+                </div>
+            }
+            @*<br /> --To be discussed. This allow employees to mark their attendance in advance.
+            <h3>However, You can mark your attendance below</h3>
+            <div class="row">
+                <div class="col-lg-8 font-weight-bold bg-light" style="color:#808080; align-items:center">
+                    <br />
+                    <br />
+                    <h2>
+                        Mark your attendance[@ViewBag.ECNo]:
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </h2>
+                </div>
+            </div>
+
+            <input type="text" name="ECNo" hidden value="@ViewBag.ECNo" />
+            <input type="text" name="Name" hidden value="@ViewBag.Name" />
+            <input type="text" name="DutyDate" hidden value="@ViewBag.DutyDate" />
+            <input type="text" name="ShiftBase" hidden value="@ViewBag.ShiftTimeBase" />*@
+            <br />
+            <br />
+            <input type="submit" value="Click here to Continue" class="btn btn-primary col-lg-10" asp-action="Home" />
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-md-8" style="background-color:#8dc1aa">No Shift available in 5 days</div>
+            </div>
+        }
+    </div>
+        }
+        else if (ViewBag.ShiftDateMatch == "T")
+        {
+            <h1>  </h1>
+            <br /><br /><br /><br /><br />
+                <h1>You are late to mark your attendance</h1>
+                <br />
+                <h2>Your permitted threshold time exceeded! Contact SOC admin</h2>
+            
+            <br />
+            <br />
+            <input type="submit" value="Click here to Continue" class="btn btn-primary col-lg-10" asp-action="Home" />
+        }
+        else if (ViewBag.ShiftDateMatch == "N")
+        {
+            <br />
+            <br />
+            
+                <br />
+                <br />
+                <h1>Unable to fetch the details from shift roster for next 5 days.</h1>
+                <h2>Hence You are not permitted to mark attendance! Contact SOC admin</h2>
+            
+            <br />
+            <br />
+            <input type="submit" value="Click here to Continue" class="btn btn-primary col-lg-10" asp-action="Home" />
+        }
+    </form>
+</body>
+</html>
+

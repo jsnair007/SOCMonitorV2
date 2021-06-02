@@ -1,0 +1,65 @@
+﻿@model SOCMonitorV2.Models.ShiftModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Create Shift Duty</h3>
+<script>
+    $(function () {
+        $("#datepicker").datepicker({ minDate: 0 });
+    });
+</script>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddShiftDuty">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                @*<label asp-for="ECNo" class="control-label"></label>*@
+                <select asp-for="ECNo" class="form-control" asp-items="@(new SelectList(ViewBag.DepList,"ECNo","Name"))"></select>
+            </div>
+            <div class="form-group">
+                @*<input type="hidden" asp-for="DutyDate" />*@
+                <label asp-for="DutyDate" class="control-label"></label>
+                <input asp-for="DutyDate" placeholder="Duty Date" value="@DateTime.Now" class="form-control" />
+                <span asp-validation-for="DutyDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShiftTimeBase" class="control-label"></label>
+                @*<input asp-for="Status" placeholder="Status(Open/Closed) *" class="form-control" />*@
+                <select asp-for="ShiftTimeBase" class="form-control" id="statusD">
+                    <option value="0">-- Select Shift Time Base --</option>
+                    <option value="Morning">Morning(7.30am-3.30pm)</option>
+                    <option value="General">General(10am-5pm)</option>
+                    <option value="Afternoon">Afternoon(3pm-11pm)</option>
+                    <option value="Night">Night(11pm-7.30am)</option>
+                </select>
+                <span asp-validation-for="ShiftTimeBase" class="text-danger"></span>
+            </div>
+            @*<input type="hidden" asp-for="DutyStartTime" />
+            <input type="hidden" asp-for="DutyEndTime" />*@
+            @*<div class="form-group">
+            <label asp-for="DutyStartTime" class="control-label" ></label>
+                <input asp-for="DutyStartTime" class="form-control"  />
+            <span asp-validation-for="DutyStartTime" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="DutyEndTime" class="control-label" ></label>
+                <input asp-for="DutyEndTime" class="form-control"  />
+            <span asp-validation-for="DutyEndTime" class="text-danger"></span>
+        </div>*@
+            <div class="form-group">
+                <label asp-for="Remarks" class="control-label"></label>
+                <input asp-for="Remarks" class="form-control" />
+                <span asp-validation-for="Remarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create/Update" class="btn btn-primary" />
+                <a asp-action="ShiftList" class="btn btn-outline-success">Duty List</a>
+            </div>
+        </form>
+    </div>
+</div>

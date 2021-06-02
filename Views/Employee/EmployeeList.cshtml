@@ -1,0 +1,91 @@
+﻿@model IEnumerable<SOCMonitorV2.Models.EmployeeModel>
+
+@{
+    ViewData["Title"] = "Employee List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Employee Details</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ECNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Designation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Role)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsExecutive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Organisation)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.ReportingAuth)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Mobile)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>*@
+            <th>
+                <a asp-action="Create" class="btn btn-outline-success"><i class="far fa-plus-square"></i>&nbsp; + Add New</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ECNo)
+                    @Html.HiddenFor(modelItem => item.ID)
+                    @Html.HiddenFor(modelItem => item.ReportingAuth)
+                    @Html.HiddenFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Designation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsExecutive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Organisation)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.ReportingAuth)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mobile)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>*@
+                <td>
+                    @Html.ActionLink("Edit", "Create", new { id = item.ID, item.ECNo, item.Name, item.Designation, item.Role, item.IsExecutive, item.Location, item.Organisation, item.ReportingAuth, item.Mobile, item.Email }, new { @class = "btn btn-success ", onclick = "return confirm('Do you really want to modify ?')" })
+                    @Html.ActionLink("Delete", "DeleteEmployee", new { item.ID, item.ECNo }, new { @class = "btn btn-danger", onclick = "return confirm('Do you really want to delete ?')" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

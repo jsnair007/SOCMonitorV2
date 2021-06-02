@@ -1,0 +1,11 @@
+
+CREATE TRIGGER trg_Officials
+ON tbl_Employee
+AFTER INSERT
+AS
+BEGIN
+    INSERT into tbl_Officials(ECNo,Name)
+	SELECT i.ECNo,i.Name from inserted i;
+END
+
+

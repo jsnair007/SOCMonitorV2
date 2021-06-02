@@ -1,0 +1,88 @@
+﻿@model IEnumerable<SOCMonitorV2.Models.ShiftModel>
+
+@{
+    ViewData["Title"] = "ShiftList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Shift Duty Details</h4>
+@*<table class="table">
+    <tr>
+        <th>
+            @using (Html.BeginForm("ShiftList", "Shift", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.DropDownList("LogOffTime", new List<SelectListItem>
+                    {
+                       new SelectListItem{ Text="December", Value = "12" },
+                       new SelectListItem{ Text="November", Value = "11" },
+                       new SelectListItem{ Text="Three", Value = "180000" }
+                    }, "Select Time")
+
+                    <a asp-action="ShiftList" class="btn btn-outline-primary">View Roster</a>
+                }
+
+            </th>
+    </tr>
+</table>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                    @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DutyDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShiftTimeBase)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DutyStartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DutyEndTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Remarks)
+            </th>
+            @if (ViewBag.Role == "Admin")
+            {
+                <th> 
+                    <a asp-action="Create" class="btn btn-outline-success"><i class="far fa-plus-square"></i>&nbsp; + Add New</a>
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+                @Html.HiddenFor(modelItem=> item.ECNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DutyDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShiftTimeBase)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DutyStartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DutyEndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            @if (ViewBag.Role == "Admin")
+            {
+                <td>
+                    @Html.ActionLink("Edit", "Create", new { id = item.ID,item.ECNo, item.Name, item.DutyDate, item.ShiftTimeBase, item.Remarks }, new { @class = "btn btn-success ", onclick = "return confirm('Do you really want to modify ?')" })
+                    @Html.ActionLink("Delete", "DeleteShiftDuty", new { item.ID }, new { @class = "btn btn-danger", onclick = "return confirm('Do you really want to delete ?')" })
+                </td>
+            }
+            </tr>
+}
+    </tbody>
+</table>

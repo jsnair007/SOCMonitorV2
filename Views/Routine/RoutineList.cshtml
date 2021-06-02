@@ -1,0 +1,99 @@
+﻿@model SOCMonitorV2.Models.CompositeSOCModel
+@{
+    ViewData["Title"] = "Task List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h4>Routine List</h4>
+
+
+<table id="DT_load" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].TaskId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].ShortDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].Frequency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].Priority)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].CompletedFlg)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].ExecutionDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].ExecRemarks)
+            </th>
+            <th>
+                <a asp-action="Create" class="btn btn-outline-primary">Add New</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.RoutineComp.Count; i++)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model.RoutineComp[i].TaskId)
+            </td>
+            <td>
+                <input type="hidden" asp-for="@Model.RoutineComp[i].ID" />
+                <input type="hidden" asp-for="@Model.RoutineComp[i].FullDescription" />
+                @*@Html.ActionLink(Model.RoutineComp[i].ShortDescription,"FullDescription",new { Model.RoutineComp[i].FullDescription },new {target="_blank" })*@
+                @Html.DisplayFor(modelItem => Model.RoutineComp[i].ShortDescription)
+                @Html.HiddenFor(modelItem => Model.RoutineComp[i].CreatorId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.RoutineComp[i].Frequency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.RoutineComp[i].Priority)
+            </td>
+            @if (Model.RoutineComp[i].CompletedFlg == "N")
+            {
+                <td style="color:orangered">
+                    @Html.DisplayFor(modelItem => Model.RoutineComp[i].CompletedFlg)
+                </td>
+            }
+            else
+            {
+                <td style="color:limegreen">
+                    @Html.DisplayFor(modelItem => Model.RoutineComp[i].CompletedFlg)
+                    @Html.HiddenFor(modelItem => Model.RoutineComp[i].ClosureDate)
+                </td>
+            }
+            <td>
+                @Html.DisplayFor(model => Model.RoutineComp[i].ExecutionDate)
+            </td>
+            <td>
+                @Html.DisplayFor(model => Model.RoutineComp[i].ExecRemarks)
+            </td>
+            <td align="right">
+                @if (Model.RoutineComp[i].CompletedFlg == "N")
+                    @Html.ActionLink("Edit", "Create", new { id = Model.RoutineComp[i].ID, Model.RoutineComp[i].TaskId, Model.RoutineComp[i].ShortDescription, Model.RoutineComp[i].FullDescription, Model.RoutineComp[i].CreatorId, Model.RoutineComp[i].CreatorName, Model.RoutineComp[i].CreatedDate, Model.RoutineComp[i].ExecutionDate, Model.RoutineComp[i].Frequency, Model.RoutineComp[i].CompletedFlg, Model.RoutineComp[i].Priority, Model.RoutineComp[i].ClosureDate, Model.RoutineComp[i].Remarks, Model.RoutineComp[i].ExecRemarks }, new { @class = "btn btn-success" })
+
+                @if ((ViewBag.Role == "Admin" || ViewBag.Role == "SuperAdmin") && Model.RoutineComp[i].CompletedFlg == "N")
+                {
+                    @Html.ActionLink("Delete", "DeleteTask", new { Model.RoutineComp[i].ID }, new { @class = "btn btn-danger", onclick = "return confirm('Do you really want to delete???')" })
+                }
+                @Html.ActionLink("History", "RoutineHistory", new { id = Model.RoutineComp[i].ID }, new { @class = "btn btn-info ", onclick = "window.open(this.href,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=1000,height=500');return false;" })
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modelContent">
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/JavaScript.js"></script>
+}

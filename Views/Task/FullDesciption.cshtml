@@ -1,0 +1,13 @@
+﻿@model SOCMonitorV2.Models.TaskModel
+@{
+    ViewData["Title"] = "SOC Shift Monitoring";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<h2>Full Description</h2>
+<table class="table">
+    <tr>
+        <td>
+            @Html.DisplayFor(model => model.FullDescription)
+        </td>
+    </tr>
+</table>

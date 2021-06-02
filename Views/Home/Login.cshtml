@@ -1,0 +1,33 @@
+﻿@model SOCMonitorV2.Models.LoginModel
+
+@{
+    ViewData["Title"] = "SOC Shift Monitoring";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<br />
+<br />
+<br />
+
+<center><img src="~/lib/soc.jpg" width="500" height="300" /></center>
+<h4>Login</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                @*<label asp-for="ECNo" class="control-label"></label>*@
+                <input asp-for="ECNo" class="form-control" placeholder="EC Number" style="text-transform:uppercase" autofocus />
+                <span asp-validation-for="ECNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @*<label asp-for="Password" class="control-label"></label>*@
+                <input asp-for="Password" class="form-control" placeholder="Password" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Login" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

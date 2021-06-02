@@ -1,0 +1,20 @@
+﻿@model SOCMonitorV2.Models.ShiftModel
+
+
+@{
+    ViewData["Title"] = "Roster Month";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Shift Duty Details</h4>
+<div class="form-group">
+    <label asp-for="DutyDate" class="control-label"></label>
+    <select asp-for="DutyDate" class="form-control" id="statusD">
+        @*<option value="0">--Select Status--</option>*@
+        <option value="12">December</option>
+        <option value="11">November</option>
+    </select>
+    <span asp-validation-for="DutyDate" class="text-danger"></span>
+    <a asp-action="ShiftList" class="btn btn-outline-success">Submit</a>
+
+</div>

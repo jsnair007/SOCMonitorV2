@@ -1,0 +1,136 @@
+﻿@model SOCMonitorV2.Models.CompositeSOCModel
+
+@{
+    ViewData["Title"] = "SOC Shift Monitoring";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<h2>
+    Routine Task History
+</h2>
+<script>
+    function ShowPopup(url) {
+        window.open(url, "_blank", "width=400,height=400");
+    }
+</script>
+
+<style type="text/css">
+    .TFtable {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .TFtable th {
+            background: #cefbe2;
+            border: solid thin;
+        }
+
+        .TFtable td {
+            padding: 7px;
+            border: #4e95f4 1px solid;
+        }
+        /* provide some minimal visual accomodation for IE8 and below */
+        .TFtable tr {
+            background: #b8d1f3;
+        }
+            /*  Define the background color for all the ODD background rows  */
+            .TFtable tr:nth-child(odd) {
+                background: #b8d1f3;
+            }
+            /*  Define the background color for all the EVEN background rows  */
+            .TFtable tr:nth-child(even) {
+                background: #dae5f4;
+            }
+</style>
+
+<table class="TFtable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].TaskId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].ShortDescription)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].FullDescription)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].CreatorId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].CreatorName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].ExecutionDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].Frequency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].CompletedFlg)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].Priority)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].ClosureDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].Remarks)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoutineComp[0].ExecRemarks)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.RoutineComp.Count; i++)
+        {
+            <tr class="nth-child(even) background-color: #000000">
+                <td>
+                    @Html.DisplayFor(modelItem => Model.RoutineComp[i].TaskId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.RoutineComp[i].ShortDescription)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.FullDescription)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => Model.RoutineComp[i].CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.RoutineComp[i].CreatorId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.RoutineComp[i].CreatorName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.RoutineComp[i].ExecutionDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.RoutineComp[i].Frequency)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.RoutineComp[i].CompletedFlg)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.RoutineComp[i].Priority)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.RoutineComp[i].ClosureDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.RoutineComp[i].Remarks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.RoutineComp[i].ExecRemarks)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
